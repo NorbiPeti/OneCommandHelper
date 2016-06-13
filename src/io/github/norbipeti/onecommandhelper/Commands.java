@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 
 public class Commands implements CommandExecutor
 {
-	private final String[] replacecmds = { "achievement", "ban", "ban",
+	private final String[] replacecmds = { "achievement", "ban",
 			"ban-ip", "banlist", "blockdata", "clear", "clone", "debug",
 			"defaultgamemode", "deop", "difficulty", "effect", "enchant",
 			"entitydata", "execute", "fill", "gamemode", "gamerule", "give",
@@ -24,7 +24,7 @@ public class Commands implements CommandExecutor
 			"tellraw", "testfor", "testforblock", "testforblocks", "time",
 			"title", "toggledownfall", "tp", "trigger", "weather", "whitelist",
 			"worldborder", "xp", "commands", "banip", "broadcast", "home",
-			"setspawn", "solid", "unban" };
+			"setspawn", "unban" };
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String alias,
@@ -35,7 +35,6 @@ public class Commands implements CommandExecutor
 		if (sender != Bukkit.getConsoleSender()
 				&& !(sender instanceof BlockCommandSender))
 		{
-			sender.sendMessage("§cThis command can only be used from the console or a command block.");
 			//return true;
 			Block block = ((Player) sender).getLocation().subtract(0, 1, 0)
 					.getBlock();
@@ -71,7 +70,7 @@ public class Commands implements CommandExecutor
 		acmd = acmd.replaceAll("Command:\\/" + replace, "/minecraft:$1")
 				.replaceAll("Command\\:" + replace, "Command:minecraft:$1")
 				.replaceAll(" " + replace + " ", " minecraft:$1 ");
-		//System.out.println(acmd);
+		System.out.println(acmd);
 		//System.out.println(replace);
 		Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), acmd);
 		return true;
