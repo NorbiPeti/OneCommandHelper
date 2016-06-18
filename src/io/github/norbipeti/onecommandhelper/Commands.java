@@ -12,8 +12,8 @@ import org.bukkit.entity.Player;
 
 public class Commands implements CommandExecutor
 {
-	private final String[] replacecmds = { "achievement", "ban",
-			"ban-ip", "banlist", "blockdata", "clear", "clone", "debug",
+	private final String[] replacecmds = { "achievement", "ban", "ban-ip",
+			"banlist", "blockdata", "clear", "clone", "debug",
 			"defaultgamemode", "deop", "difficulty", "effect", "enchant",
 			"entitydata", "execute", "fill", "gamemode", "gamerule", "give",
 			"help", "kick", "kill", "list", "me", "op", "pardon", "particle",
@@ -30,7 +30,8 @@ public class Commands implements CommandExecutor
 	public boolean onCommand(CommandSender sender, Command cmd, String alias,
 			String[] args)
 	{
-		StringBuilder acmdb = new StringBuilder("minecraft:execute @p ~ ~ ~");
+		StringBuilder acmdb = new StringBuilder("minecraft:execute "
+				+ sender.getName() + " ~ ~ ~");
 		if (sender != Bukkit.getConsoleSender()
 				&& !(sender instanceof BlockCommandSender))
 		{
@@ -44,8 +45,7 @@ public class Commands implements CommandExecutor
 			}
 			CommandBlock cmdblock = (CommandBlock) block.getState();
 			acmdb.append(" ").append(cmdblock.getCommand());
-		}
-		else
+		} else
 		{
 			if (args.length == 0)
 			{
