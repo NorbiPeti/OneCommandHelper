@@ -30,12 +30,10 @@ public class Commands implements CommandExecutor
 	public boolean onCommand(CommandSender sender, Command cmd, String alias,
 			String[] args)
 	{
-		//System.out.println("A");
 		StringBuilder acmdb = new StringBuilder("minecraft:execute @p ~ ~ ~");
 		if (sender != Bukkit.getConsoleSender()
 				&& !(sender instanceof BlockCommandSender))
 		{
-			//return true;
 			Block block = ((Player) sender).getLocation().subtract(0, 1, 0)
 					.getBlock();
 			if (block.getType() != Material.COMMAND)
@@ -47,31 +45,24 @@ public class Commands implements CommandExecutor
 			CommandBlock cmdblock = (CommandBlock) block.getState();
 			acmdb.append(" ").append(cmdblock.getCommand());
 		}
-		//System.out.println("B");
 		else
 		{
 			if (args.length == 0)
 			{
 				sender.sendMessage("§cUsage: /" + alias + " <onecommand>");
-				return true; //yolo
+				return true; //Why use the builtin usage shoing thing
 			}
-			//System.out.println("C");
 			for (String arg : args)
 				acmdb.append(" ").append(arg);
 		}
-		//System.out.println("D");
 		String acmd = acmdb.toString();
-		//System.out.println("E");
 		StringBuilder replace = new StringBuilder("(" + replacecmds[0]);
 		for (int i = 1; i < replacecmds.length; i++)
 			replace.append("|" + replacecmds[i]);
 		replace.append(")");
-		//System.out.println("F");
 		acmd = acmd.replaceAll("Command:\\/" + replace, "/minecraft:$1")
 				.replaceAll("Command\\:" + replace, "Command:minecraft:$1")
 				.replaceAll(" " + replace + " ", " minecraft:$1 ");
-		System.out.println(acmd);
-		//System.out.println(replace);
 		Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), acmd);
 		return true;
 	}
