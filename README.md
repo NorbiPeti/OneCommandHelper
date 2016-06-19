@@ -4,7 +4,7 @@ English / [Magyar](https://github.com/NorbiPeti/OneCommandHelper/blob/master/REA
 A plugin that allows one command creations to work on Spigot/Bukkit.
 
 ## Installation
-Simply put the downloaded (see Releases at top) JAR file into the server's plugin directory. No configuration needed.
+Simply put the downloaded ([see Releases at top or click here](https://github.com/NorbiPeti/OneCommandHelper/releases)) JAR file into the server's plugin directory. No configuration needed.
 
 ## Usage
 Paste the command into a command block, but *do not power it*. Instead, stand on it, and run /occ in the chat.
