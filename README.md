@@ -1,4 +1,4 @@
-English / [Magyar]()
+English / [Magyar](https://github.com/NorbiPeti/OneCommandHelper/blob/master/README_hu.md)
 
 # OneCommandHelper
 A plugin that allows one command creations to work on Spigot/Bukkit.
