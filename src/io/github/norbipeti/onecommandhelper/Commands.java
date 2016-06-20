@@ -60,9 +60,10 @@ public class Commands implements CommandExecutor
 		for (int i = 1; i < replacecmds.length; i++)
 			replace.append("|" + replacecmds[i]);
 		replace.append(")");
-		acmd = acmd.replaceAll("Command:\\/" + replace, "/minecraft:$1")
+		acmd = acmd.replaceAll("Command:\\/" + replace, "Command:/minecraft:$1")
 				.replaceAll("Command\\:" + replace, "Command:minecraft:$1")
 				.replaceAll(" " + replace + " ", " minecraft:$1 ");
+		System.out.println(acmd); //TODO
 		Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), acmd);
 		return true;
 	}
