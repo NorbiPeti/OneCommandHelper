@@ -31,7 +31,7 @@ public class Commands implements CommandExecutor
 			String[] args)
 	{
 		StringBuilder acmdb = new StringBuilder("minecraft:execute "
-				+ sender.getName() + " ~ ~ ~");
+				+ sender.getName() + " ~ ~ ~ ");
 		if (sender != Bukkit.getConsoleSender()
 				&& !(sender instanceof BlockCommandSender))
 		{
@@ -44,7 +44,7 @@ public class Commands implements CommandExecutor
 				return true;
 			}
 			CommandBlock cmdblock = (CommandBlock) block.getState();
-			acmdb.append(" ").append(cmdblock.getCommand());
+			acmdb.append(cmdblock.getCommand());
 		} else
 		{
 			if (args.length == 0)
@@ -52,18 +52,15 @@ public class Commands implements CommandExecutor
 				sender.sendMessage("§cUsage: /" + alias + " <onecommand>");
 				return true; //Why use the builtin usage shoing thing
 			}
-			for (String arg : args)
-				acmdb.append(" ").append(arg);
 		}
 		String acmd = acmdb.toString();
 		StringBuilder replace = new StringBuilder("(" + replacecmds[0]);
 		for (int i = 1; i < replacecmds.length; i++)
 			replace.append("|" + replacecmds[i]);
 		replace.append(")");
-		acmd = acmd.replaceAll("Command:\\/" + replace, "Command:/minecraft:$1")
-				.replaceAll("Command\\:" + replace, "Command:minecraft:$1")
-				.replaceAll(" " + replace + " ", " minecraft:$1 ");
-		System.out.println(acmd); //TODO
+		acmd = acmd.replaceAll("([^t]|^)( |:| \\/|:\\/)" + replace + " ",
+				"$1$2minecraft:$3 ").replaceAll("\" (\\/*)minecraft:",
+				"\"$1minecraft:"); //Tellraw
 		Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), acmd);
 		return true;
 	}
