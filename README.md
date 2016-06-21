@@ -10,3 +10,4 @@ Put the downloaded ([see Releases at top or click here](https://github.com/Norbi
 Paste the command into a command block, but *do not power it*. Instead, stand on it, and run /occ in the chat.
 
 ## Video
+[![Video](http://img.youtube.com/vi/rfPeuj0NWVg/0.jpg)](http://www.youtube.com/watch?v=rfPeuj0NWVg)
