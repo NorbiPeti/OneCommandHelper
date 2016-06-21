@@ -10,3 +10,4 @@ Rakd a letöltött ([lásd Releases felül vagy kattints ide](https://github.com
 Illeszd be a parancsot egy parancsblokkba, de *ne aktiváld*, helyette állj a parancsblokkra és írd be a /occ parancsot.
 
 ## Videó
+[![Video](http://img.youtube.com/vi/rfPeuj0NWVg/0.jpg)](http://www.youtube.com/watch?v=rfPeuj0NWVg)
