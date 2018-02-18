@@ -1,5 +1,6 @@
 package io.github.norbipeti.onecommandhelper;
 
+import com.google.common.collect.Sets;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -9,59 +10,62 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.help.HelpTopic;
+import org.bukkit.help.IndexHelpTopic;
 
-public class Commands implements CommandExecutor
-{
-	private final String[] replacecmds = { "achievement", "ban", "ban-ip",
-			"banlist", "blockdata", "clear", "clone", "debug",
-			"defaultgamemode", "deop", "difficulty", "effect", "enchant",
-			"entitydata", "execute", "fill", "gamemode", "gamerule", "give",
-			"help", "kick", "kill", "list", "me", "op", "pardon", "particle",
-			"playsound", "publish", "replaceitem", "save", "save-all",
-			"save-off", "save-on", "say", "scoreboard", "seed", "setblock",
-			"setidletimeout", "setworldspawn", "spawnpoint", "spreadplayers",
-			"stats", "stop", "stopsound", "summon", "teleport", "tell",
-			"tellraw", "testfor", "testforblock", "testforblocks", "time",
-			"title", "toggledownfall", "tp", "trigger", "weather", "whitelist",
-			"worldborder", "xp", "commands", "banip", "broadcast", "home",
-			"setspawn", "unban" };
+import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.Collection;
 
-	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String alias,
-			String[] args)
-	{
-		StringBuilder acmdb = new StringBuilder("minecraft:execute "
-				+ sender.getName() + " ~ ~ ~ ");
-		if (sender != Bukkit.getConsoleSender()
-				&& !(sender instanceof BlockCommandSender))
-		{
-			Block block = ((Player) sender).getLocation().subtract(0, 1, 0)
-					.getBlock();
-			if (block.getType() != Material.COMMAND)
-			{
-				sender.sendMessage("§cError! Block underneath must be command block! Found "
-						+ block.getType());
-				return true;
-			}
-			CommandBlock cmdblock = (CommandBlock) block.getState();
-			acmdb.append(cmdblock.getCommand());
-		} else
-		{
-			if (args.length == 0)
-			{
-				sender.sendMessage("§cUsage: /" + alias + " <onecommand>");
-				return true; //Why use the builtin usage shoing thing
-			}
-		}
-		String acmd = acmdb.toString();
-		StringBuilder replace = new StringBuilder("(" + replacecmds[0]);
-		for (int i = 1; i < replacecmds.length; i++)
-			replace.append("|").append(replacecmds[i]);
-		replace.append(")");
-		acmd = acmd.replaceAll("([^t]|^)( |:| /|:/)" + replace + " ",
-				"$1$2minecraft:$3 ").replaceAll("\" (/*)minecraft:",
-				"\"$1minecraft:"); //Tellraw
-		Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), acmd);
-		return true;
-	}
+public class Commands implements CommandExecutor {
+    @Override
+    public boolean onCommand(CommandSender sender, Command cmd, String alias,
+                             String[] args) {
+        if (!sender.isOp()) {
+            sender.sendMessage("§cYou need to be an OP to use this command.");
+            return true;
+        }
+        StringBuilder acmdb = new StringBuilder("minecraft:execute ");
+        acmdb.append(sender.getName()).append(" ");
+        if (sender instanceof Player) {
+            Block block = ((Player) sender).getTargetBlock(null, 10);
+            if (block == null) {
+                sender.sendMessage("§cYou need to look at the command block you want to activate. Make sure you're within 10 blocks of it.");
+                return true;
+            }
+            if (block.getType() != Material.COMMAND) {
+                sender.sendMessage("§cError! You need to look at a command block. Found "
+                        + block.getType());
+                return true;
+            }
+            CommandBlock cmdblock = (CommandBlock) block.getState();
+            acmdb.append(block.getX()).append(" ").append(block.getY()).append(" ").append(block.getZ()).append(" ");
+            acmdb.append(cmdblock.getCommand());
+        } else {
+            sender.sendMessage("§cYou need to be a player and look at the command block where you have the command you need to run.");
+            return true;
+        }
+        String acmd = acmdb.toString();
+        IndexHelpTopic iht = (IndexHelpTopic) Bukkit.getHelpMap().getHelpTopic("Minecraft");
+        String[] replacecmds;
+        try { //Get Minecraft (vanilla) commands
+            Field f = iht.getClass().getDeclaredField("allTopics");
+            f.setAccessible(true);
+            replacecmds = ((Collection<HelpTopic>) f.get(iht)).stream().map(ht -> ht.getName().substring(1)).toArray(String[]::new);
+            System.out.println(Arrays.toString(replacecmds)); //TODO: Fallback method
+        } catch (Exception e) {
+            sender.sendMessage("§cAn error occured while getting commands!");
+            e.printStackTrace();
+            return true;
+        }
+        StringBuilder replace = new StringBuilder("(").append(replacecmds[0]);
+        for (int i = 1; i < replacecmds.length; i++)
+            replace.append("|").append(replacecmds[i]);
+        replace.append(")");
+        acmd = acmd.replaceAll("([^t]|^)( |:| /|:/)" + replace + " ",
+                "$1$2minecraft:$3 ").replaceAll("\" (/*)minecraft:",
+                "\"$1minecraft:"); //Tellraw
+        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), acmd);
+        return true;
+    }
 }

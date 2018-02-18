@@ -1,5 +1,0 @@
-name: OneCommandHelper
-main: io.github.norbipeti.onecommandhelper.PluginMain
-version: 1.0
-commands:
-    occ:
