@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
 public class CommandTestTest { //Nope. See below.
     @Test
     public void test() {
-        Bukkit.setServer(Mockito.mock(Server.class, new Answer() {
+        /*Bukkit.setServer(Mockito.mock(Server.class, new Answer() {
             @Override
             public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
                 if (is(invocationOnMock, String.class))
@@ -58,7 +58,7 @@ public class CommandTestTest { //Nope. See below.
                 System.out.println(Arrays.toString(invocationOnMock.getArguments()));
                 return null;
             }
-        }), null, "occ", new String[]{});
+        }), null, "occ", new String[]{});*/
     }
 
     private <T> boolean is(InvocationOnMock invocationOnMock, Class<T> cl) {
