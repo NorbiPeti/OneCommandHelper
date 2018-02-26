@@ -39,8 +39,8 @@ public class Commands implements CommandExecutor {
                 return true;
             }
             CommandBlock cmdblock = (CommandBlock) block.getState();
-            //acmdb.append(block.getX()).append(" ").append(block.getY()).append(" ").append(block.getZ()).append(" ");
-            acmdb.append("~ ~ ~ ");
+            acmdb.append(block.getX()).append(".5 ").append(block.getY()).append(".5 ").append(block.getZ()).append(".5 ");
+            //acmdb.append("~ ~ ~ ");
             acmdb.append(cmdblock.getCommand());
         } else {
             sender.sendMessage("§cYou need to be a player and look at the command block where you have the command you need to run.");
@@ -53,7 +53,7 @@ public class Commands implements CommandExecutor {
             Field f = iht.getClass().getDeclaredField("allTopics");
             f.setAccessible(true);
             replacecmds = ((Collection<HelpTopic>) f.get(iht)).stream().filter(ht -> ht.getName().startsWith("/minecraft:")).map(ht -> ht.getName().substring("/minecraft:".length())).toArray(String[]::new);
-            System.out.println(Arrays.toString(replacecmds)); //TODO: Fallback method
+            //System.out.println(Arrays.toString(replacecmds)); //TODO: Fallback method
         } catch (Exception e) {
             sender.sendMessage("§cAn error occured while getting commands!");
             e.printStackTrace();
