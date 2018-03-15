@@ -18,6 +18,20 @@ import java.util.Arrays;
 import java.util.Collection;
 
 public class Commands implements CommandExecutor {
+    private final String[] fallbackreplacecmds = {"achievement", "ban", "ban-ip",
+            "banlist", "blockdata", "clear", "clone", "debug",
+            "defaultgamemode", "deop", "difficulty", "effect", "enchant",
+            "entitydata", "execute", "fill", "gamemode", "gamerule", "give",
+            "help", "kick", "kill", "list", "me", "op", "pardon", "particle",
+            "playsound", "publish", "replaceitem", "save", "save-all",
+            "save-off", "save-on", "say", "scoreboard", "seed", "setblock",
+            "setidletimeout", "setworldspawn", "spawnpoint", "spreadplayers",
+            "stats", "stop", "stopsound", "summon", "teleport", "tell",
+            "tellraw", "testfor", "testforblock", "testforblocks", "time",
+            "title", "toggledownfall", "tp", "trigger", "weather", "whitelist",
+            "worldborder", "xp", "commands", "banip", "broadcast", "home",
+            "setspawn", "unban"};
+
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String alias,
                              String[] args) {
@@ -40,7 +54,6 @@ public class Commands implements CommandExecutor {
             }
             CommandBlock cmdblock = (CommandBlock) block.getState();
             acmdb.append(block.getX()).append(".5 ").append(block.getY()).append(".5 ").append(block.getZ()).append(".5 ");
-            //acmdb.append("~ ~ ~ ");
             acmdb.append(cmdblock.getCommand());
         } else {
             sender.sendMessage("§cYou need to be a player and look at the command block where you have the command you need to run.");
@@ -53,11 +66,10 @@ public class Commands implements CommandExecutor {
             Field f = iht.getClass().getDeclaredField("allTopics");
             f.setAccessible(true);
             replacecmds = ((Collection<HelpTopic>) f.get(iht)).stream().filter(ht -> ht.getName().startsWith("/minecraft:")).map(ht -> ht.getName().substring("/minecraft:".length())).toArray(String[]::new);
-            //System.out.println(Arrays.toString(replacecmds)); //TODO: Fallback method
         } catch (Exception e) {
-            sender.sendMessage("§cAn error occured while getting commands!");
             e.printStackTrace();
-            return true;
+            PluginMain.getPlugin(PluginMain.class).getLogger().info("Using fallback command array");
+            replacecmds = fallbackreplacecmds;
         }
         StringBuilder replace = new StringBuilder("(").append(replacecmds[0]);
         for (int i = 1; i < replacecmds.length; i++)
