@@ -4,7 +4,7 @@
 Egy plugin, ami működőképessé teszi az egy (vagy több) parancsos alkotásokat Spigot/Bukkit szervereken.
 Erre azért van szükség, mert a szerverekre telepített pluginoknak lehet olyan parancsuk, ami lecserél egy beépített parancsot.
 
-Vegyül például a /kill parancsot.
+Vegyük például a /kill parancsot.
 Az Essentialsnak van /kill parancsa, ezért ha használod azt a plugint, minden alkalommal, amikor lefuttatod a /kill prancsot, azt futtatja le.
 Ugyanakkor az a parancs nem ismeri a szelektorokat, ezért pl. a `/kill @a[r=1]` parancs nem működne vele.
 

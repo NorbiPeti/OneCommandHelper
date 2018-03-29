@@ -1,5 +1,6 @@
 name: OneCommandHelper
 main: io.github.norbipeti.onecommandhelper.PluginMain
-version: 1.0
+version: 2.0
 commands:
     occ:
+        description:  Runs one (or more) command creations you look at.
